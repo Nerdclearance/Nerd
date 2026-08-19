@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#087f5b" />
+  <title>NERD Self-Registration Portal</title>
+
+  <style>
+    :root{
+      --green:#087f5b;
+      --green-dark:#056044;
+      --green-soft:#e9f7f1;
+      --gold:#d8a72e;
+      --ink:#17231f;
+      --muted:#66736e;
+      --bg:#f4f7f6;
+      --white:#ffffff;
+      --border:#dfe7e3;
+      --danger:#c0392b;
+      --shadow:0 12px 35px rgba(16,42,34,.08);
+      --radius:16px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+      line-height:1.5;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none!important}
+
+    /* ---------- Header ---------- */
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(12px);
+    }
+    .nav{
+      max-width:1180px;
+      margin:auto;
+      min-height:74px;
+      padding:0 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      color:var(--green-dark);
+      text-decoration:none;
+    }
+    .brand-mark{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:var(--green);
+      color:#fff;
+      font-size:13px;
+      font-weight:900;
+      border:4px solid #d9f0e7;
+    }
+    .brand small{
+      display:block;
+      color:var(--muted);
+      font-weight:500;
+      font-size:11px;
+    }
+    .nav-actions{display:flex;gap:9px;align-items:center}
+    .nav-btn{
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+    }
+    .nav-btn:hover{background:var(--green-soft);color:var(--green-dark)}
+    .nav-btn.primary{background:var(--green);color:#fff}
+
+    /* ---------- Buttons ---------- */
+    .btn{
+      border:0;
+      border-radius:11px;
+      padding:12px 17px;
+      font-weight:800;
+      transition:.2s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--green);color:#fff}
+    .btn-primary:hover{background:var(--green-dark)}
+    .btn-outline{background:#fff;color:var(--green);border:1px solid var(--green)}
+    .btn-light{background:var(--green-soft);color:var(--green-dark)}
+    .btn-danger{background:#fff1ef;color:var(--danger)}
+    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+    /* ---------- Landing ---------- */
+    .hero{
+      max-width:1180px;
+      margin:0 auto;
+      padding:76px 20px 48px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:45px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;
+      gap:7px;
+      align-items:center;
+      padding:7px 11px;
+      border-radius:999px;
+      background:var(--green-soft);
+      color:var(--green-dark);
+      font-weight:800;
+      font-size:12px;
+    }
+    h1{
+      font-size:clamp(38px,5vw,64px);
+      line-height:1.02;
+      letter-spacing:-2px;
+      margin:18px 0;
+    }
+    .hero p{
+      font-size:18px;
+      color:var(--muted);
+      max-width:650px;
+    }
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .hero-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .hero-card h3{margin-top:0}
+    .status-row{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:14px 0;
+      border-bottom:1px solid var(--border);
+    }
+    .status-row:last-child{border-bottom:0}
+    .status-label{color:var(--muted);font-size:13px}
+    .status-value{font-weight:800;text-align:right}
+    .section{
+      max-width:1180px;
+      margin:0 auto;
+      padding:35px 20px 75px;
+    }
+    .section-title{text-align:center;max-width:700px;margin:0 auto 35px}
+    .section-title h2{font-size:34px;margin:0 0 10px}
+    .section-title p{color:var(--muted)}
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .feature{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:23px;
+    }
+    .feature-icon{
+      width:44px;height:44px;border-radius:12px;
+      background:var(--green-soft);
+      display:grid;place-items:center;
+      color:var(--green-dark);
+      font-weight:900;
+      margin-bottom:15px;
+    }
+    .feature h3{margin:0 0 7px}
+    .feature p{color:var(--muted);margin:0}
+
+    /* ---------- App shell ---------- */
+    .app-shell{min-height:calc(100vh - 74px)}
+    .app-layout{
+      max-width:1280px;
+      margin:auto;
+      padding:25px 20px 60px;
+      display:grid;
+      grid-template-columns:230px 1fr;
+      gap:22px;
+    }
+    .sidebar{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:12px;
+      height:max-content;
+      position:sticky;
+      top:95px;
+    }
+    .side-link{
+      width:100%;
+      text-align:left;
+      background:transparent;
+      border:0;
+      padding:12px 13px;
+      border-radius:10px;
+      font-weight:700;
+      color:#40514b;
+      margin:2px 0;
+    }
+    .side-link:hover,.side-link.active{
+      background:var(--green-soft);
+      color:var(--green-dark);
+    }
+    .side-sep{height:1px;background:var(--border);margin:10px 0}
+    .content{min-width:0}
+    .page-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:20px;
+    }
+    .page-head h2{margin:0;font-size:30px}
+    .page-head p{margin:5px 0 0;color:var(--muted)}
+    .card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 5px 18px rgba(16,42,34,.03);
+      margin-bottom:18px;
+    }
+
+    /* ---------- Dashboard ---------- */
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .stat{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+    }
+    .stat span{display:block;color:var(--muted);font-size:12px;font-weight:700}
+    .stat strong{display:block;font-size:25px;margin-top:6px}
+    .badge{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+    }
+    .badge-green{background:var(--green-soft);color:var(--green-dark)}
+    .badge-gold{background:#fff7dc;color:#8b6810}
+    .badge-red{background:#fff0ee;color:var(--danger)}
+
+    /* ---------- Forms ---------- */
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:17px;
+    }
+    .form-group{display:flex;flex-direction:column;gap:7px}
+    .form-group.full{grid-column:1/-1}
+    label{font-size:13px;font-weight:800}
+    .required{color:var(--danger)}
+    input,select,textarea{
+      width:100%;
+      border:1px solid #ccd8d3;
+      border-radius:10px;
+      padding:12px 13px;
+      outline:none;
+      background:#fff;
+      color:var(--ink);
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--green);
+      box-shadow:0 0 0 3px rgba(8,127,91,.10);
+    }
+    textarea{min-height:110px;resize:vertical}
+    .hint{font-size:11px;color:var(--muted)}
+    .form-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
+    .section-heading{
+      font-size:17px;
+      margin:0 0 16px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--border);
+    }
+
+    /* ---------- Login/Register ---------- */
+    .auth-wrap{
+      min-height:calc(100vh - 74px);
+      display:grid;
+      place-items:center;
+      padding:35px 20px;
+    }
+    .auth-card{
+      width:min(560px,100%);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:30px;
+      box-shadow:var(--shadow);
+    }
+    .auth-card h2{margin:0 0 7px;font-size:30px}
+    .auth-card > p{color:var(--muted);margin-top:0}
+    .auth-switch{text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
+    .auth-switch button{border:0;background:none;color:var(--green);font-weight:800}
+
+    /* ---------- Steps ---------- */
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-bottom:20px;
+    }
+    .step{
+      padding:11px 8px;
+      border-radius:10px;
+      background:#edf2f0;
+      color:#71807a;
+      text-align:center;
+      font-size:11px;
+      font-weight:900;
+    }
+    .step.active{background:var(--green);color:#fff}
+    .step.done{background:var(--green-soft);color:var(--green-dark)}
+
+    /* ---------- Payment ---------- */
+    .payment-box{
+      max-width:720px;
+      margin:auto;
+    }
+    .amount{
+      font-size:42px;
+      font-weight:900;
+      color:var(--green-dark);
+      margin:8px 0 18px;
+    }
+    .pay-methods{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin:18px 0;
+    }
+    .pay-method{
+      border:1px solid var(--border);
+      padding:16px;
+      border-radius:12px;
+      cursor:pointer;
+    }
+    .pay-method.selected{border:2px solid var(--green);background:var(--green-soft)}
+
+    /* ---------- Upload ---------- */
+    .dropzone{
+      border:2px dashed #b9cbc4;
+      border-radius:16px;
+      padding:40px 20px;
+      text-align:center;
+      background:#fbfdfc;
+    }
+    .dropzone.dragover{border-color:var(--green);background:var(--green-soft)}
+    .file-name{font-weight:800;color:var(--green-dark);margin-top:12px}
+
+    /* ---------- Clearance ---------- */
+    .clearance-page{
+      background:#fff;
+      border:1px solid #d7ddd9;
+      max-width:850px;
+      margin:auto;
+      padding:42px 48px 55px;
+      box-shadow:var(--shadow);
+    }
+    .clearance-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      border-bottom:1px solid #e5e8e6;
+      padding-bottom:18px;
+      margin-bottom:24px;
+    }
+    .clearance-brand{
+      color:var(--green-dark);
+      font-weight:900;
+      font-size:14px;
+    }
+    .clearance-title{
+      font-size:23px;
+      font-weight:500;
+      margin:0 0 22px;
+    }
+    .clearance-grid{
+      display:grid;
+      grid-template-columns:155px 1fr;
+      gap:11px 18px;
+      font-size:13px;
+    }
+    .clearance-grid .label{font-weight:800}
+    .clearance-grid .value{color:#46534e}
+    .compliance{
+      margin:22px 0;
+      border-top:1px solid #e5e8e6;
+      border-bottom:1px solid #e5e8e6;
+      padding:15px 0;
+    }
+    .compliance h4{margin:0 0 7px}
+    .compliance ul{margin:0;padding-left:20px}
+    .issued{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns:70px 1fr 115px;
+      gap:15px;
+      align-items:start;
+    }
+    .logo-round{
+      width:60px;height:60px;border-radius:50%;
+      background:var(--green);
+      color:#fff;display:grid;place-items:center;
+      font-size:11px;font-weight:900;
+      border:5px solid #e0f1eb;
+    }
+    .qr{
+      width:105px;height:105px;
+      border:8px solid #fff;
+      outline:1px solid #222;
+      background:
+        linear-gradient(90deg,#111 10%,transparent 10% 20%,#111 20% 30%,transparent 30% 40%,#111 40% 50%,transparent 50% 60%,#111 60% 70%,transparent 70% 80%,#111 80% 90%,transparent 90%),
+        linear-gradient(#111 10%,transparent 10% 20%,#111 20% 30%,transparent 30% 40%,#111 40% 50%,transparent 50% 60%,#111 60% 70%,transparent 70% 80%,#111 80% 90%,transparent 90%);
+      image-rendering:pixelated;
+    }
+    .notice{
+      margin-top:35px;
+      padding-top:18px;
+      border-top:1px solid #e5e8e6;
+      font-size:12px;
+      color:#5e6965;
+    }
+    .print-actions{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin:20px 0;
+    }
+
+    /* ---------- Toast ---------- */
+    .toast{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      z-index:100;
+      background:#17231f;
+      color:#fff;
+      padding:13px 16px;
+      border-radius:11px;
+      box-shadow:var(--shadow);
+      max-width:340px;
+      opacity:0;
+      transform:translateY(15px);
+      pointer-events:none;
+      transition:.25s ease;
+      font-size:13px;
+    }
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    footer{
+      background:#10251e;
+      color:#dce8e3;
+      padding:28px 20px;
+      text-align:center;
+      font-size:12px;
+    }
+
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .feature-grid{grid-template-columns:1fr}
+      .app-layout{grid-template-columns:1fr}
+      .sidebar{position:static}
+      .stats{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:650px){
+      .nav-actions .nav-btn:not(.primary){display:none}
+      .hero{padding-top:45px}
+      h1{letter-spacing:-1px}
+      .form-grid{grid-template-columns:1fr}
+      .form-group.full{grid-column:auto}
+      .steps{grid-template-columns:repeat(2,1fr)}
+      .pay-methods{grid-template-columns:1fr}
+      .clearance-page{padding:25px 20px}
+      .clearance-grid{grid-template-columns:1fr;gap:3px}
+      .clearance-grid .value{margin-bottom:9px}
+      .issued{grid-template-columns:60px 1fr}
+      .issued .qr-wrap{grid-column:1/-1;margin-top:10px}
+      .page-head{flex-direction:column}
+    }
+
+    @media print{
+      body{background:#fff}
+      header,.sidebar,.page-head,.print-actions,.toast,footer,.no-print{display:none!important}
+      .app-layout{display:block;padding:0}
+      .card{border:0;box-shadow:none;padding:0}
+      .clearance-page{box-shadow:none;border:0;max-width:none}
+    }
+  </style>
+</head>
+
+<body>
+  <header id="siteHeader">
+    <nav class="nav">
+      <a class="brand" href="#" onclick="showView('landing');return false;">
+        <span class="brand-mark">NERD</span>
+        <span>
+          NERD Self-Registration
+          <small>Nigeria Education Repository & Databank</small>
+        </span>
+      </a>
+
+      <div class="nav-actions">
+        <button class="nav-btn" onclick="showView('landing')">Home</button>
+        <button class="nav-btn" onclick="showView('login')">Sign in</button>
+        <button class="nav-btn primary" onclick="showView('register')">Register</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= LANDING ================= -->
+  <main id="landing" class="view">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">● Official self-registration workflow</span>
+        <h1>Submit your academic project to NERD with confidence.</h1>
+        <p>
+          Create your student profile, complete your academic information,
+          make the required platform support payment, submit your project,
+          and access your NERD compliance clearance.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="showView('register')">Start Registration</button>
+          <button class="btn btn-outline" onclick="showView('login')">Existing Student? Sign in</button>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>Registration workflow</h3>
+        <div class="status-row">
+          <span class="status-label">1. Account</span>
+          <span class="status-value">Create profile</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">2. Academic data</span>
+          <span class="status-value">Complete records</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">3. Project upload</span>
+          <span class="status-value">₦4,500 platform support payment</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">4. Clearance</span>
+          <span class="status-value"><span class="badge badge-green">Generated</span></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <h2>Everything in one portal</h2>
+        <p>A simple student-facing workflow designed around the NERD compliance process.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <div class="feature-icon">01</div>
+          <h3>Student registration</h3>
+          <p>Capture personal, contact, next-of-kin and academic information in one guided form.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">02</div>
+          <h3>Supervisor details</h3>
+          <p>Record the HOD and supervisor names and official email addresses required for the project.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">03</div>
+          <h3>Project submission</h3>
+          <p>Project upload remains locked until the ₦4,500 platform support payment is completed.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= LOGIN ================= -->
+  <main id="login" class="view hidden">
+    <section class="auth-wrap">
+      <div class="auth-card">
+        <h2>Welcome back</h2>
+        <p>Sign in to continue your NERD registration.</p>
+
+        <form onsubmit="login(event)">
+          <div class="form-group">
+            <label>Email address <span class="required">*</span></label>
+            <input id="loginEmail" type="email" placeholder="student@example.com" required />
+          </div>
+
+          <div class="form-group" style="margin-top:15px">
+            <label>Password <span class="required">*</span></label>
+            <input id="loginPassword" type="password" placeholder="Enter password" required />
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Sign in</button>
+          </div>
+        </form>
+
+        <div class="auth-switch">
+          New student?
+          <button onclick="showView('register')">Create an account</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= REGISTER ================= -->
+  <main id="register" class="view hidden">
+    <section class="auth-wrap" style="align-items:start">
+      <div class="auth-card" style="width:min(900px,100%)">
+        <h2>Create your NERD account</h2>
+        <p>Complete the required registration information below.</p>
+
+        <form id="registrationForm" onsubmit="saveRegistration(event)">
+          <h3 class="section-heading">Account information</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Email address <span class="required">*</span></label>
+              <input id="regEmail" type="email" required placeholder="student@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Password <span class="required">*</span></label>
+              <input id="regPassword" type="password" minlength="6" required placeholder="Minimum 6 characters" />
+            </div>
+          </div>
+
+          <h3 class="section-heading" style="margin-top:28px">Personal Information</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>First name <span class="required">*</span></label>
+              <input id="firstName" required />
+            </div>
+            <div class="form-group">
+              <label>Middle name</label>
+              <input id="middleName" />
+            </div>
+            <div class="form-group">
+              <label>Surname <span class="required">*</span></label>
+              <input id="surname" required />
+            </div>
+            <div class="form-group">
+              <label>Gender <span class="required">*</span></label>
+              <select id="gender" required>
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Date of birth <span class="required">*</span></label>
+              <input id="dob" type="date" required />
+            </div>
+            <div class="form-group">
+              <label>Nationality <span class="required">*</span></label>
+              <input id="nationality" value="Nigerian" required />
+            </div>
+          </div>
+
+          <h3 class="section-heading" style="margin-top:28px">Contact Information</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Phone number <span class="required">*</span></label>
+              <input id="phone" type="tel" required placeholder="080XXXXXXXX" />
+            </div>
+            <div class="form-group">
+              <label>Email <span class="required">*</span></label>
+              <input id="contactEmail" type="email" required placeholder="student@example.com" />
+            </div>
+            <div class="form-group full">
+              <label>Residential address <span class="required">*</span></label>
+              <textarea id="address" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>State of origin <span class="required">*</span></label>
+              <input id="stateOrigin" required />
+            </div>
+            <div class="form-group">
+              <label>Local Government Area <span class="required">*</span></label>
+              <input id="lga" required />
+            </div>
+          </div>
+
+          <h3 class="section-heading" style="margin-top:28px">Next of Kin</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full name <span class="required">*</span></label>
+              <input id="kinName" required />
+            </div>
+            <div class="form-group">
+              <label>Relationship <span class="required">*</span></label>
+              <input id="kinRelationship" required />
+            </div>
+            <div class="form-group">
+              <label>Phone number <span class="required">*</span></label>
+              <input id="kinPhone" type="tel" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input id="kinEmail" type="email" />
+            </div>
+            <div class="form-group full">
+              <label>Address <span class="required">*</span></label>
+              <textarea id="kinAddress" required></textarea>
+            </div>
+          </div>
+
+          <h3 class="section-heading" style="margin-top:28px">Academic Data</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Institution <span class="required">*</span></label>
+              <input id="institution" required placeholder="University / Polytechnic / College" />
+            </div>
+            <div class="form-group">
+              <label>Matriculation / Student ID <span class="required">*</span></label>
+              <input id="studentId" required />
+            </div>
+            <div class="form-group">
+              <label>Faculty / School <span class="required">*</span></label>
+              <input id="faculty" required />
+            </div>
+            <div class="form-group">
+              <label>Department <span class="required">*</span></label>
+              <input id="department" required />
+            </div>
+            <div class="form-group">
+              <label>Programme <span class="required">*</span></label>
+              <input id="programme" required />
+            </div>
+            <div class="form-group">
+              <label>Degree type <span class="required">*</span></label>
+              <select id="degree" required>
+                <option value="">Select</option>
+                <option>B.Sc.</option>
+                <option>B.A.</option>
+                <option>B.Eng.</option>
+                <option>B.Tech.</option>
+                <option>HND</option>
+                <option>ND</option>
+                <option>PGD</option>
+                <option>M.Sc.</option>
+                <option>M.A.</option>
+                <option>M.Eng.</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Level <span class="required">*</span></label>
+              <input id="level" required placeholder="e.g. 400" />
+            </div>
+            <div class="form-group full">
+              <label>Project title <span class="required">*</span></label>
+              <textarea id="projectTitle" required placeholder="Enter the full approved project title"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Submission type <span class="required">*</span></label>
+              <select id="submissionType" required>
+                <option>Project</option>
+                <option>Thesis</option>
+                <option>Dissertation</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <h3 class="section-heading" style="margin-top:28px">HOD & Supervisor</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>HOD name <span class="required">*</span></label>
+              <input id="hodName" required />
+            </div>
+            <div class="form-group">
+              <label>HOD email <span class="required">*</span></label>
+              <input id="hodEmail" type="email" required />
+            </div>
+            <div class="form-group">
+              <label>Supervisor name <span class="required">*</span></label>
+              <input id="supervisorName" required />
+            </div>
+            <div class="form-group">
+              <label>Supervisor email <span class="required">*</span></label>
+              <input id="supervisorEmail" type="email" required />
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:25px;background:#f7fbf9">
+            <label style="display:flex;gap:10px;align-items:flex-start">
+              <input id="terms" type="checkbox" required style="width:auto;margin-top:4px" />
+              <span>I confirm that the information supplied is accurate and belongs to me.</span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Create account & continue</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= APPLICATION ================= -->
+  <main id="app" class="view hidden app-shell">
+    <div class="app-layout">
+      <aside class="sidebar">
+        <button class="side-link active" data-section="dashboard" onclick="openSection('dashboard')">Dashboard</button>
+        <button class="side-link" data-section="profile" onclick="openSection('profile')">My profile</button>
+        <button class="side-link" data-section="upload" onclick="openSection('upload')">Project upload</button>
+        <button class="side-link" data-section="clearance" onclick="openSection('clearance')">Clearance</button>
+        <div class="side-sep"></div>
+        <button class="side-link" onclick="logout()">Sign out</button>
+      </aside>
+
+      <section class="content">
+        <!-- DASHBOARD -->
+        <div id="section-dashboard" class="app-section">
+          <div class="page-head">
+            <div>
+              <h2>Student dashboard</h2>
+              <p>Track your NERD registration and project submission.</p>
+            </div>
+            <span class="badge badge-green">Account active</span>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <span>Registration</span>
+              <strong id="dashRegistration">Complete</strong>
+            </div>
+            <div class="stat">
+              <span>Platform support payment</span>
+              <strong id="dashSupport">Not applicable</strong>
+            </div>
+            <div class="stat">
+              <span>Project upload</span>
+              <strong id="dashUpload">Locked</strong>
+            </div>
+            <div class="stat">
+              <span>Clearance</span>
+              <strong id="dashClearance">Pending</strong>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Welcome, <span id="dashName">Student</span></h3>
+            <p style="color:var(--muted)">
+              Complete the ₦4,500 platform support payment to unlock project upload.
+            </p>
+            <div class="form-actions">
+              <button class="btn btn-primary" onclick="openSection('upload')">Continue to project upload</button>
+              <button class="btn btn-light" onclick="openSection('profile')">View profile</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="section-profile" class="app-section hidden">
+          <div class="page-head">
+            <div>
+              <h2>My profile</h2>
+              <p>Your submitted registration information.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="form-grid" id="profileDetails"></div>
+          </div>
+        </div>
+
+        <!-- UPLOAD -->
+        <div id="section-upload" class="app-section hidden">
+          <div class="page-head">
+            <div>
+              <h2>Project upload</h2>
+              <p>Your project upload is unlocked only after the separate ₦4,500 platform support payment.</p>
+            </div>
+          </div>
+
+          <div id="uploadLocked" class="card">
+            <span class="badge badge-red">Locked</span>
+            <h3>Project upload is currently locked</h3>
+            <p style="color:var(--muted)">
+              Complete the separate platform support payment of ₦4,500 to continue.
+            </p>
+            <button class="btn btn-primary" onclick="startUploadPayment()">Pay ₦4,500 platform support fee & unlock</button>
+          </div>
+
+          <div id="uploadOpen" class="card hidden">
+            <span class="badge badge-green">Unlocked</span>
+            <h3>Upload your project</h3>
+            <p style="color:var(--muted)">
+              Accepted demo formats: PDF, DOC, DOCX. Maximum file size: 20 MB.
+            </p>
+
+            <div id="dropzone" class="dropzone">
+              <div style="font-size:40px">↑</div>
+              <strong>Drop your project here</strong>
+              <p style="color:var(--muted)">or</p>
+              <input id="projectFile" type="file" accept=".pdf,.doc,.docx" onchange="showSelectedFile(event)" />
+              <div id="selectedFile" class="file-name"></div>
+            </div>
+
+            <div class="form-actions">
+              <button id="submitProjectBtn" class="btn btn-primary" onclick="submitProject()" disabled>
+                Submit project
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLEARANCE -->
+        <div id="section-clearance" class="app-section hidden">
+          <div class="page-head">
+            <div>
+              <h2>NERD Compliance Clearance</h2>
+              <p>Your generated compliance document.</p>
+            </div>
+          </div>
+
+          <div id="clearanceLocked" class="card">
+            <span class="badge badge-red">Not available</span>
+            <h3>Clearance has not been generated yet</h3>
+            <p style="color:var(--muted)">
+              Complete the registration, support payment, platform support payment,
+              and project submission first.
+            </p>
+          </div>
+
+          <div id="clearanceReady" class="hidden">
+            <div class="print-actions no-print">
+              <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
+            </div>
+
+            <div class="clearance-page" id="clearanceDocument">
+              <div class="clearance-top">
+                <div class="clearance-brand">NERD Compliance Clearance</div>
+                <div><strong>NDN:</strong> <span id="slipNdn">PRJ-411572631764083117</span></div>
+              </div>
+
+              <h2 class="clearance-title">NERD Compliance Clearance</h2>
+
+              <div class="clearance-grid">
+                <div class="label">Title:</div>
+                <div class="value" id="slipTitle">—</div>
+
+                <div class="label">Student name:</div>
+                <div class="value" id="slipStudent">—</div>
+
+                <div class="label">Institution:</div>
+                <div class="value" id="slipInstitution">—</div>
+
+                <div class="label">Faculty:</div>
+                <div class="value" id="slipFaculty">—</div>
+
+                <div class="label">Department:</div>
+                <div class="value" id="slipDepartment">—</div>
+
+                <div class="label">Submission Type:</div>
+                <div class="value" id="slipSubmission">Project</div>
+
+                <div class="label">Date of Submission:</div>
+                <div class="value" id="slipDate">—</div>
+              </div>
+
+              <div class="compliance">
+                <h4>Compliance</h4>
+                <ul>
+                  <li>NCVS Compliance: <em>Not enforced</em></li>
+                  <li>Academic report submission: <strong>Submitted</strong></li>
+                </ul>
+              </div>
+
+              <p>
+                <strong>Amount contributed to support platform:</strong>
+                ₦3,700 <em>(not enforced)</em>
+              </p>
+
+              <div class="issued">
+                <div class="logo-round">NERD</div>
+                <div>
+                  <strong>Issued by</strong><br>
+                  The Nigeria Education Repository and Databank (N.E.R.D)<br>
+                  Under the National Policy for NERD.<br><br>
+                  Email: support@nerd.gov.ng<br>
+                  Phone: +234 806 004 4989<br>
+                  Website: www.nerd.gov.ng
+                </div>
+                <div class="qr-wrap">
+                  <div class="qr" aria-label="Verification QR placeholder"></div>
+                  <small>Verify NDN</small>
+                </div>
+              </div>
+
+              <div class="notice">
+                <strong>Notice</strong>
+                <p>
+                  NERD is the first tier-one national flagship exclusively owned by
+                  the Federal Government on behalf of the Federal Republic of Nigeria
+                  and the education sector but with digitisation infrastructure that
+                  is wholly financed by the private sector. The National Policy for
+                  NERD permits NERD's technology operator and NERD companion services
+                  to charge fees to support this national education digitisation infrastructure.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="siteFooter">
+    NERD Self-Registration Portal • Frontend prototype
+  </footer>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "nerd_registration_demo_v1";
+
+    const defaultData = {
+      supportPaid: false,
+      uploadPaid: false,
+      projectSubmitted: false,
+      clearanceGenerated: false,
+      projectFileName: "",
+      ndn: "PRJ-411572631764083117",
+      submissionDate: "",
+      profile: {}
+    };
+
+    let state = loadState();
+
+    function loadState(){
+      try{
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved ? {...defaultData, ...saved, profile:{...defaultData.profile,...(saved.profile||{})}} : structuredClone(defaultData);
+      }catch(e){
+        return structuredClone(defaultData);
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showToast(message){
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(()=>toast.classList.remove("show"), 2800);
+    }
+
+    function showView(id){
+      document.querySelectorAll(".view").forEach(v=>v.classList.add("hidden"));
+      const target = document.getElementById(id);
+      if(target) target.classList.remove("hidden");
+
+      const header = document.getElementById("siteHeader");
+      const footer = document.getElementById("siteFooter");
+      if(id === "app"){
+        header.classList.remove("hidden");
+        footer.classList.remove("hidden");
+        refreshApp();
+      }else{
+        header.classList.remove("hidden");
+        footer.classList.remove("hidden");
+      }
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    function showRegister(){
+      showView("register");
+    }
+
+    function saveRegistration(event){
+      event.preventDefault();
+
+      const ids = [
+        "regEmail","regPassword","firstName","middleName","surname","gender","dob",
+        "nationality","phone","contactEmail","address","stateOrigin","lga",
+        "kinName","kinRelationship","kinPhone","kinEmail","kinAddress",
+        "institution","studentId","faculty","department","programme","degree","level",
+        "projectTitle","submissionType","hodName","hodEmail","supervisorName","supervisorEmail"
+      ];
+
+      const profile = {};
+      ids.forEach(id => {
+        profile[id] = document.getElementById(id)?.value?.trim() || "";
+      });
+
+      state.profile = profile;
+      state.submissionDate = new Date().toISOString();
+      saveState();
+
+      showToast("Registration saved successfully.");
+      showView("app");
+      openSection("dashboard");
+    }
+
+    function login(event){
+      event.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+
+      if(!state.profile.regEmail){
+        showToast("No demo account found. Please register first.");
+        showView("register");
+        return;
+      }
+
+      if(email.toLowerCase() !== state.profile.regEmail.toLowerCase()){
+        showToast("For this demo, use the email used during registration.");
+        return;
+      }
+
+      showToast("Signed in successfully.");
+      showView("app");
+    }
+
+    function logout(){
+      showView("landing");
+      showToast("You have been signed out.");
+    }
+
+    function openSection(section){
+      document.querySelectorAll(".app-section").forEach(s=>s.classList.add("hidden"));
+      const target = document.getElementById("section-"+section);
+      if(target) target.classList.remove("hidden");
+
+      document.querySelectorAll(".side-link").forEach(btn=>btn.classList.remove("active"));
+      const active = document.querySelector('.side-link[data-section="'+section+'"]');
+      if(active) active.classList.add("active");
+
+      if(section === "clearance") updateClearance();
+      if(section === "upload") refreshUpload();
+      if(section === "profile") renderProfile();
+      refreshDashboard();
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    function refreshApp(){
+      refreshDashboard();
+      renderProfile();
+      refreshUpload();
+      updateClearance();
+    }
+
+    function refreshDashboard(){
+      const p = state.profile || {};
+      document.getElementById("dashName").textContent =
+        [p.firstName,p.surname].filter(Boolean).join(" ") || "Student";
+
+      document.getElementById("dashSupport").textContent = "Not applicable";
+      document.getElementById("dashUpload").textContent = state.uploadPaid ? (state.projectSubmitted ? "Submitted" : "Open") : "Locked";
+      document.getElementById("dashClearance").textContent = state.clearanceGenerated ? "Ready" : "Pending";
+
+      document.getElementById("dashSupport").className = "badge badge-light";
+      document.getElementById("dashUpload").className = state.uploadPaid ? "badge badge-green" : "";
+      document.getElementById("dashClearance").className = state.clearanceGenerated ? "badge badge-green" : "";
+    }
+
+    function renderProfile(){
+      const p = state.profile || {};
+      const fields = [
+        ["Full name",[p.firstName,p.middleName,p.surname].filter(Boolean).join(" ")],
+        ["Email",p.contactEmail || p.regEmail],
+        ["Phone",p.phone],
+        ["Institution",p.institution],
+        ["Student ID",p.studentId],
+        ["Faculty",p.faculty],
+        ["Department",p.department],
+        ["Programme",p.programme],
+        ["Degree",p.degree],
+        ["Level",p.level],
+        ["Project title",p.projectTitle],
+        ["HOD",p.hodName],
+        ["HOD email",p.hodEmail],
+        ["Supervisor",p.supervisorName],
+        ["Supervisor email",p.supervisorEmail]
+      ];
+
+      document.getElementById("profileDetails").innerHTML = fields.map(([label,value]) => `
+        <div class="form-group">
+          <label>${escapeHtml(label)}</label>
+          <input value="${escapeHtml(value || "—")}" readonly />
+        </div>
+      `).join("");
+    }
+
+        function selectPay(el){
+      document.querySelectorAll(".pay-method").forEach(x=>x.classList.remove("selected"));
+      el.classList.add("selected");
+    }
+
+    function startUploadPayment(){
+      // Demo payment action. Replace with your real gateway integration.
+      state.uploadPaid = true;
+      saveState();
+      showToast("₦4,500 platform support payment completed.");
+      refreshUpload();
+      refreshDashboard();
+    }
+
+    function refreshUpload(){
+      const locked = document.getElementById("uploadLocked");
+      const open = document.getElementById("uploadOpen");
+
+      if(state.uploadPaid){
+        locked.classList.add("hidden");
+        open.classList.remove("hidden");
+      }else{
+        locked.classList.remove("hidden");
+        open.classList.add("hidden");
+      }
+
+      if(state.projectFileName){
+        document.getElementById("selectedFile").textContent = state.projectFileName;
+        document.getElementById("submitProjectBtn").disabled = false;
+      }
+    }
+
+    function showSelectedFile(event){
+      const file = event.target.files[0];
+      if(!file) return;
+
+      const allowed = ["application/pdf","application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+
+      const extOk = /\.(pdf|doc|docx)$/i.test(file.name);
+      if(!extOk){
+        event.target.value = "";
+        showToast("Please select a PDF, DOC or DOCX file.");
+        return;
+      }
+
+      if(file.size > 20 * 1024 * 1024){
+        event.target.value = "";
+        showToast("File exceeds the 20 MB demo limit.");
+        return;
+      }
+
+      state.projectFileName = file.name;
+      saveState();
+      document.getElementById("selectedFile").textContent = file.name;
+      document.getElementById("submitProjectBtn").disabled = false;
+    }
+
+    function submitProject(){
+      if(!state.uploadPaid){
+        showToast("Project upload is locked until ₦4,500 is paid.");
+        return;
+      }
+      if(!state.projectFileName){
+        showToast("Select a project file first.");
+        return;
+      }
+
+      state.projectSubmitted = true;
+      state.clearanceGenerated = true;
+      state.submissionDate = new Date().toISOString();
+      saveState();
+
+      showToast("Project submitted. Compliance clearance is ready.");
+      refreshDashboard();
+      updateClearance();
+      openSection("clearance");
+    }
+
+    function updateClearance(){
+      const locked = document.getElementById("clearanceLocked");
+      const ready = document.getElementById("clearanceReady");
+
+      if(!state.clearanceGenerated){
+        locked.classList.remove("hidden");
+        ready.classList.add("hidden");
+        return;
+      }
+
+      locked.classList.add("hidden");
+      ready.classList.remove("hidden");
+
+      const p = state.profile || {};
+      document.getElementById("slipNdn").textContent = state.ndn;
+      document.getElementById("slipTitle").textContent = p.projectTitle || "—";
+      document.getElementById("slipStudent").textContent =
+        [p.firstName,p.middleName,p.surname].filter(Boolean).join(" ") || "—";
+      document.getElementById("slipInstitution").textContent = p.institution || "—";
+      document.getElementById("slipFaculty").textContent = p.faculty || "—";
+      document.getElementById("slipDepartment").textContent = p.department || "—";
+      document.getElementById("slipSubmission").textContent = p.submissionType || "Project";
+
+      const date = state.submissionDate ? new Date(state.submissionDate) : new Date();
+      document.getElementById("slipDate").textContent = formatDateTime(date);
+    }
+
+    function formatDateTime(date){
+      const pad = n => String(n).padStart(2,"0");
+      return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
+    function escapeHtml(value){
+      return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    // Drag-and-drop upload
+    const dz = document.getElementById("dropzone");
+    if(dz){
+      ["dragenter","dragover"].forEach(name=>{
+        dz.addEventListener(name,e=>{
+          e.preventDefault();
+          dz.classList.add("dragover");
+        });
+      });
+      ["dragleave","drop"].forEach(name=>{
+        dz.addEventListener(name,e=>{
+          e.preventDefault();
+          dz.classList.remove("dragover");
+        });
+      });
+      dz.addEventListener("drop",e=>{
+        const file = e.dataTransfer.files[0];
+        if(!file) return;
+        const input = document.getElementById("projectFile");
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        input.files = dt.files;
+        input.dispatchEvent(new Event("change"));
+      });
+    }
+
+    // Start on landing.
+    showView("landing");
+  </script>
+</body>
+</html>
